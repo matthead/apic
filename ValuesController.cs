@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
+using System.Web.Http.Description;
 namespace webapicrud.Controllers
 {
     public class UserController : ApiController
@@ -23,12 +23,20 @@ namespace webapicrud.Controllers
         {
         }
 
-        //[Route("api/register")]
+      /*  //[Route("api/register")]
         public string Put([FromBody]UserDto userDto)
         {
             return userDto.username;
+        }*/
+        [HttpPut]
+        [ResponseType(typeof(Guid))]
+        [Route("api/register")]
+        public IHttpActionResult Register([FromBody]UserDto userDto)
+        {
+            if(ModelState.IsValid)
+                return Ok(userDto.Username);
+            return BadRequest(ModelState);
         }
-
         // DELETE api/values/5
         public void Delete(int id)
         {
